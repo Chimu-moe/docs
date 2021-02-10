@@ -192,7 +192,7 @@ Downloads a beatmap set using given set id
                 "data": []
             }
 
-### Search [GET /v1/search{?query,amount,offset,rankedStatus,mode,min_ar,max_ar,min_od,max_od,min_cs,max_cs,min_hp,max_hp,min_diff,max_diff,min_bpm,max_bpm,min_length,max_length,genre,language}]
+### Search [GET /v1/search{?query,amount,offset,status,mode,min_ar,max_ar,min_od,max_od,min_cs,max_cs,min_hp,max_hp,min_diff,max_diff,min_bpm,max_bpm,min_length,max_length,genre,language}]
 Search for a beatmap set
 
 + Parameters
@@ -200,7 +200,7 @@ Search for a beatmap set
     + query: `peppy` (string) - Search query
     + amount: `100` (number) - Amount of resulting beatmaps
     + offset: `0` (number) - Offset E.G amount + 100 would result in the next page
-    + rankedStatus: `0` (number) - Ranked status of the Beatmap Set
+    + status: `0` (number) - Ranked status of the Beatmap Set
     + mode: `0` (number) - Required playmode of the beatmap
     + min_ar: `0` (number) - Minimum AR
     + max_ar: `0` (number) - Maximum AR
