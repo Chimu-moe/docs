@@ -226,3 +226,135 @@ Search for a beatmap set
                 "message": "Error: ABCD is not an int!",
                 "data": []
             }
+
+## Cheesegull API
+### Get beatmap [GET /cheesegull/b/{map_id}]
+Gets a beatmap.
+
++ Parameters
+
+    + map_id: `53` (required, number) - Beatmap Id
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                  "BeatmapID": 53,
+                  "ParentSetID": 3,
+                  "DiffName": "-Crusin-",
+                  "FileMD5": "1d23c37a2fda439be752ae2bca06c0cd",
+                  "Mode": 0,
+                  "BPM": 172,
+                  "AR": 4,
+                  "OD": 4,
+                  "CS": 5,
+                  "HP": 3,
+                  "TotalLength": 83,
+                  "HitLength": 77,
+                  "Playcount": 101574,
+                  "Passcount": 47994,
+                  "MaxCombo": 124,
+                  "DifficultyRating": 1.86918
+            }
+
+### Get beatmapset [GET /cheesegull/s/{set_id}]
+Gets a beatmap.
+
++ Parameters
+
+    + set_id: `1` (required, number) - Beatmapset Id
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                  "SetID": 1,
+                  "ChildrenBeatmaps": [
+                        {
+                              "BeatmapID": 75,
+                              "ParentSetID": 1,
+                              "DiffName": "Normal",
+                              "FileMD5": "a5b99395a42bd55bc5eb1d2411cbdf8b",
+                              "Mode": 0,
+                              "BPM": 119.999,
+                              "AR": 6,
+                              "OD": 6,
+                              "CS": 4,
+                              "HP": 6,
+                              "TotalLength": 142,
+                              "HitLength": 109,
+                              "Playcount": 467474,
+                              "Passcount": 57119,
+                              "MaxCombo": 314,
+                              "DifficultyRating": 2.40729
+                        }
+                  ],
+                  "RankedStatus": 1,
+                  "ApprovedDate": "2007-10-06T17:46:31Z",
+                  "LastUpdate": "2007-10-06T17:46:31Z",
+                  "LastChecked": "2021-01-19T09:43:57Z",
+                  "Artist": "Kenji Ninuma",
+                  "Title": "DISCO PRINCE",
+                  "Creator": "peppy",
+                  "Source": "",
+                  "Tags": "katamari",
+                  "HasVideo": false,
+                  "Genre": 2,
+                  "Language": 3,
+                  "Favourites": 789
+            }
+            
+### Search [GET /cheesegull/search{?query,amount,offset,status,mode}]
+Search for a beatmap set
+
++ Parameters
+
+    + query: `peppy disco` (string) - Search query
+    + amount: `1` (number) - Amount of resulting beatmaps
+    + offset: `0` (number) - Offset E.G amount + 100 would result in the next page
+    + status: `0` (number) - Ranked status of the Beatmap Set
+    + mode: `0` (number) - Required playmode of the beatmap
+
++ Response 200 (application/json)
+
+    + Body
+            [
+                  {
+                        "SetID": 1,
+                        "ChildrenBeatmaps": [
+                              {
+                                    "BeatmapID": 75,
+                                    "ParentSetID": 1,
+                                    "DiffName": "Normal",
+                                    "FileMD5": "a5b99395a42bd55bc5eb1d2411cbdf8b",
+                                    "Mode": 0,
+                                    "BPM": 119.999,
+                                    "AR": 6,
+                                    "OD": 6,
+                                    "CS": 4,
+                                    "HP": 6,
+                                    "TotalLength": 142,
+                                    "HitLength": 109,
+                                    "Playcount": 467474,
+                                    "Passcount": 57119,
+                                    "MaxCombo": 314,
+                                    "DifficultyRating": 2.40729
+                              }
+                        ],
+                        "RankedStatus": 1,
+                        "ApprovedDate": "2007-10-06T17:46:31Z",
+                        "LastUpdate": "2007-10-06T17:46:31Z",
+                        "LastChecked": "2021-01-19T09:43:57Z",
+                        "Artist": "Kenji Ninuma",
+                        "Title": "DISCO PRINCE",
+                        "Creator": "peppy",
+                        "Source": "",
+                        "Tags": "katamari",
+                        "HasVideo": false,
+                        "Genre": 2,
+                        "Language": 3,
+                        "Favourites": 789
+                  }
+            ]
