@@ -134,7 +134,7 @@ Downloads a beatmap set using given set id
 
     + header
 
-        https://ipfs.chimu.moe/ipfs/QmbrVpStvVtznG5p8u5HebThepUaGgK7dmRbeUTXqrBEvK?filename=1 Kenji Ninuma - DISCO PRINCE.osz
+            https://ipfs.chimu.moe/ipfs/QmbrVpStvVtznG5p8u5HebThepUaGgK7dmRbeUTXqrBEvK?filename=1 Kenji Ninuma - DISCO PRINCE.osz
 
 + Response 403 (application/json)
 
@@ -227,8 +227,7 @@ Search for a beatmap set
                 "data": []
             }
 
-## Cheesegull API
-### Get beatmap [GET /cheesegull/b/{map_id}]
+### Cheesegull> Get beatmap [GET /cheesegull/b/{map_id}]
 Gets a beatmap.
 
 + Parameters
@@ -258,8 +257,8 @@ Gets a beatmap.
                   "DifficultyRating": 1.86918
             }
 
-### Get beatmapset [GET /cheesegull/s/{set_id}]
-Gets a beatmap.
+### Cheesegull> Get beatmapset [GET /cheesegull/s/{set_id}]
+Gets a beatmap set.
 
 + Parameters
 
@@ -306,7 +305,7 @@ Gets a beatmap.
                   "Favourites": 789
             }
             
-### Search [GET /cheesegull/search{?query,amount,offset,status,mode}]
+### Cheesegull> Search [GET /cheesegull/search{?query,amount,offset,status,mode}]
 Search for a beatmap set
 
 + Parameters
@@ -320,6 +319,7 @@ Search for a beatmap set
 + Response 200 (application/json)
 
     + Body
+
             [
                   {
                         "SetID": 1,
