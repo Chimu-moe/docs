@@ -257,6 +257,36 @@ Gets a beatmap.
                   "DifficultyRating": 1.86918
             }
 
+### Cheesegull> Get beatmap [GET /cheesegull/md5/{map_md5}]
+Gets a beatmap with specified md5 hash.
+
++ Parameters
+
+    + map_md5: `1d23c37a2fda439be752ae2bca06c0cd` (required, string) - Beatmap md5
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                  "BeatmapID": 53,
+                  "ParentSetID": 3,
+                  "DiffName": "-Crusin-",
+                  "FileMD5": "1d23c37a2fda439be752ae2bca06c0cd",
+                  "Mode": 0,
+                  "BPM": 172,
+                  "AR": 4,
+                  "OD": 4,
+                  "CS": 5,
+                  "HP": 3,
+                  "TotalLength": 83,
+                  "HitLength": 77,
+                  "Playcount": 101574,
+                  "Passcount": 47994,
+                  "MaxCombo": 124,
+                  "DifficultyRating": 1.86918
+            }
+
 ### Cheesegull> Get beatmapset [GET /cheesegull/s/{set_id}]
 Gets a beatmap set.
 
