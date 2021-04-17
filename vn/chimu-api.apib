@@ -1,0 +1,389 @@
+FORMAT: 1A
+HOST: https://api.chimu.moe
+
+# Chimu API
+NOTE: Một số API Endpoints cần một khóa API đặc biệt chỉ có từ việc tham gia patreon hoặc \
+      được phát thưởng bởi @Mempler#6666 trên [Discord](https://discord.gg/9JnqPSrPpz) \
+      hoặc qua E-Mail [chimu@mempler.de](mailto:chimu@mempler.de)!
+
+## API V1
+### Lấy beatmap [GET /v1/map/{map_id}]
+Lấy một beatmap.
+nếu có lỗi sẽ trả về JSON bao gồm một tin nhắn và mã lỗi.
+
++ Tham số
+
+    + map_id: `53` (bắt buộc, số) - Id beatmap
+
++ Phản hồi 200 (application/json)
+
+    + Body
+    
+            {
+                "code": 0,
+                "message": "",
+                "data": {
+                    "BeatmapId": 53,
+                    "ParentSetId": 3,
+                    "DiffName": "-Crusin-",
+                    "FileMD5": "1d23c37a2fda439be752ae2bca06c0cd",
+                    "Mode": 0,
+                    "BPM": 172.0,
+                    "AR": 4.0,
+                    "OD": 4.0,
+                    "CS": 5.0,
+                    "HP": 3.0,
+                    "TotalLength": 83,
+                    "HitLength": 77,
+                    "Playcount": 101574,
+                    "Passcount": 47994,
+                    "MaxCombo": 124,
+                    "DifficultyRating": 1.86918,
+                    "OsuFile": "Ni-Ni - 1,2,3,4, 007 [Wipeout Series] (MCXD) [-Crusin-].osu",
+                    "DownloadPath": "/d/3"
+                }
+            }
+
++ Phản hồi 404 (application/json)
+
+    + Body
+
+            {
+                "code": 104,
+                "message": "Error: Beatmap not found!",
+                "data": []
+            }
+
+### Lấy bộ beatmap [GET /v1/set/{set_id}]
+Lấy một bộ beatmap.
+nếu có lỗi sẽ trả về JSON bao gồm một tin nhắn và mã lỗi.
+
++ Tham số
+
+    + set_id: `1` (bắt buộc, số) - Id của bộ beatmap
+
++ Phản hồi 200 (application/json)
+
+    + Body
+    
+            {
+                "code": 0,
+                "message": "",
+                "data": {
+                    "SetId": 1,
+                    "ChildrenBeatmaps": [
+                    {
+                        "BeatmapId": 75,
+                        "ParentSetId": 1,
+                        "DiffName": "Normal",
+                        "FileMD5": "a5b99395a42bd55bc5eb1d2411cbdf8b",
+                        "Mode": 0,
+                        "BPM": 119.999,
+                        "AR": 6.0,
+                        "OD": 6.0,
+                        "CS": 4.0,
+                        "HP": 6.0,
+                        "TotalLength": 142,
+                        "HitLength": 109,
+                        "Playcount": 467474,
+                        "Passcount": 57119,
+                        "MaxCombo": 314,
+                        "DifficultyRating": 2.40729,
+                        "OsuFile": "Kenji Ninuma - DISCO PRINCE (peppy) [Normal].osu",
+                        "DownloadPath": "/d/1"
+                    }
+                    ],
+                    "RankedStatus": 1,
+                    "ApprovedDate": "2007-10-06T17:46:31",
+                    "LastUpdate": "2007-10-06T17:46:31",
+                    "LastChecked": "2021-01-19T09:43:57",
+                    "Artist": "Kenji Ninuma",
+                    "Title": "DISCO PRINCE",
+                    "Creator": "peppy",
+                    "Source": "",
+                    "Tags": "katamari",
+                    "HasVideo": false,
+                    "Genre": 2,
+                    "Language": 3,
+                    "Favourites": 789,
+                    "Disabled": false
+                }
+            }
+
++ Phản hồi 404 (application/json)
+
+    + Body
+
+            {
+                "code": 104,
+                "message": "Error: Beatmap set not found!",
+                "data": []
+            }
+
+### Tải bộ beatmap [GET /v1/download/{set_id}{?k,s,n}]
+Tải một bộ beatmap bằng id
+Downloads a beatmap set using given set id
+
++ Tham số
+
+    + set_id: `1` (bắt buộc, số) - Id của bộ beatmap
+    + n: `1` (bắt buộc, chuỗi) - Tải về với Video hoặc Không Video.
+
++ Phản hồi 302
+
+    + header
+
+            https://ipfs.chimu.moe/ipfs/QmbrVpStvVtznG5p8u5HebThepUaGgK7dmRbeUTXqrBEvK?filename=1 Kenji Ninuma - DISCO PRINCE.osz
+
++ Phản hồi 403 (application/json)
+
+    + Body
+
+            // if {k} is not set
+            {
+                "code": 102,
+                "message": "Error: key is not set!",
+                "data": []
+            }
+
+            // if {s} is not set
+            {
+                "code": 103,
+                "message": "Error: state is not set!",
+                "data": []
+            }
+
+            // if {k} is invalid
+            {
+                "code": 102,
+                "message": "Error: Invalid Key!",
+                "data": []
+            }
+
++ Phản hồi 401 (application/json)
+
+    + Body
+
+            // if {set_id} is not an int set
+            {
+                "code": 101,
+                "message": "Error: ABVC is not an int!",
+                "data": []
+            }
+
++ Phản hồi 404 (application/json)
+
+    + Body
+
+            // if we don't know about this beatmap.
+            {
+                "code": 104,
+                "message": "Error: Beatmap not found!",
+                "data": []
+            }
+            
+            // if we dont have this beatmap and cant download it.
+            {
+                "code": 105,
+                "message": "Error: Beatmap unavailable!",
+                "data": []
+            }
+
+### Tìm kiếm [GET /v1/search{?query,amount,offset,status,mode,min_ar,max_ar,min_od,max_od,min_cs,max_cs,min_hp,max_hp,min_diff,max_diff,min_bpm,max_bpm,min_length,max_length,genre,language}]
+Tìm kiếm một bộ beatmap
+
++ Tham số
+    
+    + query: `peppy` (chuỗi) - Chuỗi cần tìm
+    + amount: `100` (số) - Giới hạn số lượng kết quả trả về
+    + offset: `0` (số) - Offset E.G amount + 100 would result in the next page
+    + status: `0` (số) - Thông tin xếp hạng (RANKED) của map
+    + mode: `0` (số) - Chế độ chơi của map
+    + min_ar: `0` (số) - AR nhỏ nhất
+    + max_ar: `0` (số) - AR lớn nhất
+    + min_od: `0` (số) - OD nhỏ nhất
+    + max_od: `0` (số) - OD lớn nhất
+    + min_cs: `0` (số) - CS nhỏ nhất
+    + max_cs: `0` (số) - CS lớn nhất
+    + min_hp: `0` (số) - HP nhỏ nhất
+    + max_hp: `0` (số) - HP lớn nhất
+    + min_diff: `0` (số) - Độ khó nhỏ nhất
+    + max_diff: `0` (số) - Độ khó lớn nhất
+    + min_bpm: `0` (số) - BPM nhỏ nhất
+    + max_bpm: `0` (số) - BPM lớn nhất
+    + min_length: `0` (số) - Độ dài nhỏ nhất (tính bằng giây)
+    + max_length: `0` (số) - Độ dài lớn nhất (tính bằng giây)
+    + genre: `0` (số) - Thể loại
+    + language: `0` (số) - Ngôn ngữ
+
++ Phản hồi 401 (application/json)
+
+    + Body
+
+            {
+                "code": 101,
+                "message": "Error: ABCD is not an int!",
+                "data": []
+            }
+
+### Cheesegull> Get beatmap [GET /cheesegull/b/{map_id}]
+Gets a beatmap.
+
++ Tham số
+
+    + map_id: `53` (bắt buộc, số) - Beatmap Id
+
++ Phản hồi 200 (application/json)
+
+    + Body
+    
+            {
+                  "BeatmapID": 53,
+                  "ParentSetID": 3,
+                  "DiffName": "-Crusin-",
+                  "FileMD5": "1d23c37a2fda439be752ae2bca06c0cd",
+                  "Mode": 0,
+                  "BPM": 172,
+                  "AR": 4,
+                  "OD": 4,
+                  "CS": 5,
+                  "HP": 3,
+                  "TotalLength": 83,
+                  "HitLength": 77,
+                  "Playcount": 101574,
+                  "Passcount": 47994,
+                  "MaxCombo": 124,
+                  "DifficultyRating": 1.86918
+            }
+
+### Cheesegull> Get beatmap [GET /cheesegull/md5/{map_md5}]
+Gets a beatmap with specified md5 hash.
+
++ Tham số
+
+    + map_md5: `1d23c37a2fda439be752ae2bca06c0cd` (bắt buộc, string) - Beatmap md5
+
++ Phản hồi 200 (application/json)
+
+    + Body
+    
+            {
+                  "BeatmapID": 53,
+                  "ParentSetID": 3,
+                  "DiffName": "-Crusin-",
+                  "FileMD5": "1d23c37a2fda439be752ae2bca06c0cd",
+                  "Mode": 0,
+                  "BPM": 172,
+                  "AR": 4,
+                  "OD": 4,
+                  "CS": 5,
+                  "HP": 3,
+                  "TotalLength": 83,
+                  "HitLength": 77,
+                  "Playcount": 101574,
+                  "Passcount": 47994,
+                  "MaxCombo": 124,
+                  "DifficultyRating": 1.86918
+            }
+
+### Cheesegull> Get beatmapset [GET /cheesegull/s/{set_id}]
+Gets a beatmap set.
+
++ Tham số
+
+    + set_id: `1` (bắt buộc, số) - Beatmapset Id
+
++ Phản hồi 200 (application/json)
+
+    + Body
+    
+            {
+                  "SetID": 1,
+                  "ChildrenBeatmaps": [
+                        {
+                              "BeatmapID": 75,
+                              "ParentSetID": 1,
+                              "DiffName": "Normal",
+                              "FileMD5": "a5b99395a42bd55bc5eb1d2411cbdf8b",
+                              "Mode": 0,
+                              "BPM": 119.999,
+                              "AR": 6,
+                              "OD": 6,
+                              "CS": 4,
+                              "HP": 6,
+                              "TotalLength": 142,
+                              "HitLength": 109,
+                              "Playcount": 467474,
+                              "Passcount": 57119,
+                              "MaxCombo": 314,
+                              "DifficultyRating": 2.40729
+                        }
+                  ],
+                  "RankedStatus": 1,
+                  "ApprovedDate": "2007-10-06T17:46:31Z",
+                  "LastUpdate": "2007-10-06T17:46:31Z",
+                  "LastChecked": "2021-01-19T09:43:57Z",
+                  "Artist": "Kenji Ninuma",
+                  "Title": "DISCO PRINCE",
+                  "Creator": "peppy",
+                  "Source": "",
+                  "Tags": "katamari",
+                  "HasVideo": false,
+                  "Genre": 2,
+                  "Language": 3,
+                  "Favourites": 789
+            }
+            
+### Cheesegull> Search [GET /cheesegull/search{?query,amount,offset,status,mode}]
+Search for a beatmap set
+
++ Tham số
+
+    + query: `peppy disco` (string) - Search query
+    + amount: `1` (số) - Amount of resulting beatmaps
+    + offset: `0` (số) - Offset E.G amount + 100 would result in the next page
+    + status: `0` (số) - Ranked status of the Beatmap Set
+    + mode: `0` (số) - Required playmode of the beatmap
+
++ Phản hồi 200 (application/json)
+
+    + Body
+
+            [
+                  {
+                        "SetID": 1,
+                        "ChildrenBeatmaps": [
+                              {
+                                    "BeatmapID": 75,
+                                    "ParentSetID": 1,
+                                    "DiffName": "Normal",
+                                    "FileMD5": "a5b99395a42bd55bc5eb1d2411cbdf8b",
+                                    "Mode": 0,
+                                    "BPM": 119.999,
+                                    "AR": 6,
+                                    "OD": 6,
+                                    "CS": 4,
+                                    "HP": 6,
+                                    "TotalLength": 142,
+                                    "HitLength": 109,
+                                    "Playcount": 467474,
+                                    "Passcount": 57119,
+                                    "MaxCombo": 314,
+                                    "DifficultyRating": 2.40729
+                              }
+                        ],
+                        "RankedStatus": 1,
+                        "ApprovedDate": "2007-10-06T17:46:31Z",
+                        "LastUpdate": "2007-10-06T17:46:31Z",
+                        "LastChecked": "2021-01-19T09:43:57Z",
+                        "Artist": "Kenji Ninuma",
+                        "Title": "DISCO PRINCE",
+                        "Creator": "peppy",
+                        "Source": "",
+                        "Tags": "katamari",
+                        "HasVideo": false,
+                        "Genre": 2,
+                        "Language": 3,
+                        "Favourites": 789
+                  }
+            ]
