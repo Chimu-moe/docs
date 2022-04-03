@@ -2,9 +2,6 @@ FORMAT: 1A
 HOST: https://api.chimu.moe
 
 # Chimu API
-NOTE: Some API Endpoints need a special API key which are only for patreon or given away  \
-      by @Mempler#6666 on [Discord](https://discord.gg/9JnqPSrPpz) \
-      or via E-Mail at [chimu@mempler.de](mailto:chimu@mempler.de)!
 
 ## API V1
 ### Get beatmap [GET /v1/map/{map_id}]
@@ -49,11 +46,7 @@ a message and error code.
 
     + Body
 
-            {
-                "code": 104,
-                "message": "Error: Beatmap not found!",
-                "data": []
-            }
+            null
 
 ### Get beatmap set [GET /v1/set/{set_id}]
 Gets a beatmap set.
@@ -116,79 +109,30 @@ a message and error code.
 
     + Body
 
-            {
-                "code": 104,
-                "message": "Error: Beatmap set not found!",
-                "data": []
-            }
+            null
 
-### Download beatmap set [GET /v1/download/{set_id}{?k,s,n}]
-Downloads a beatmap set using given set id
+### Download beatmap set [GET /v1/download/{set_id}]
+Downloads a beatmap set using given set id</br>
+<i>NOTE:</i> Chimu currently responses only with noVideo maps!
 
 + Parameters
 
     + set_id: `1` (required, number) - Beatmap set Id
-    + n: `1` (required, string) - Download either with or without video.
 
-+ Response 302
++ Response 200
 
     + header
 
-            https://ipfs.chimu.moe/ipfs/QmbrVpStvVtznG5p8u5HebThepUaGgK7dmRbeUTXqrBEvK?filename=1 Kenji Ninuma - DISCO PRINCE.osz
+            Content-Type: application/octet-stream
 
-+ Response 403 (application/json)
-
-    + Body
-
-            // if {k} is not set
-            {
-                "code": 102,
-                "message": "Error: key is not set!",
-                "data": []
-            }
-
-            // if {s} is not set
-            {
-                "code": 103,
-                "message": "Error: state is not set!",
-                "data": []
-            }
-
-            // if {k} is invalid
-            {
-                "code": 102,
-                "message": "Error: Invalid Key!",
-                "data": []
-            }
-
-+ Response 401 (application/json)
++ Response 400 (text/plain)
 
     + Body
-
-            // if {set_id} is not an int set
-            {
-                "code": 101,
-                "message": "Error: ABVC is not an int!",
-                "data": []
-            }
-
-+ Response 404 (application/json)
-
-    + Body
-
-            // if we don't know about this beatmap.
-            {
-                "code": 104,
-                "message": "Error: Beatmap not found!",
-                "data": []
-            }
-            
-            // if we dont have this beatmap and cant download it.
-            {
-                "code": 105,
-                "message": "Error: Beatmap unavailable!",
-                "data": []
-            }
+            // Different type of errors
+            "Malformed ID"
+            "Could not fetch set"
+            "Set not found"
+            "The beatmap could not be downloaded right now"
 
 ### Search [GET /v1/search{?query,amount,offset,status,mode,min_ar,max_ar,min_od,max_od,min_cs,max_cs,min_hp,max_hp,min_diff,max_diff,min_bpm,max_bpm,min_length,max_length,genre,language}]
 Search for a beatmap set
@@ -198,8 +142,8 @@ Search for a beatmap set
     + query: `peppy` (string) - Search query
     + amount: `100` (number) - Amount of resulting beatmaps
     + offset: `0` (number) - Offset E.G amount + 100 would result in the next page
-    + status: `0` (number) - Ranked status of the Beatmap Set
-    + mode: `0` (number) - Required playmode of the beatmap
+    + status: `0` (number[]) - Ranked statuses of the Beatmap Set
+    + mode: `0` (number[]) - Required playmodes of the beatmap
     + min_ar: `0` (number) - Minimum AR
     + max_ar: `0` (number) - Maximum AR
     + min_od: `0` (number) - Minimum OD
@@ -217,17 +161,17 @@ Search for a beatmap set
     + genre: `0` (number) - Genre
     + language: `0` (number) - Language
 
-+ Response 401 (application/json)
++ Response 500 (application/json)
 
     + Body
 
             {
-                "code": 101,
-                "message": "Error: ABCD is not an int!",
+                "code": 500,
+                "message": "Something bad happend",
                 "data": []
             }
 
-### Cheesegull> Get beatmap [GET /cheesegull/b/{map_id}]
+### Cheesegull> Get beatmap [GET /api/b/{map_id}]
 Gets a beatmap.
 
 + Parameters
@@ -257,7 +201,7 @@ Gets a beatmap.
                   "DifficultyRating": 1.86918
             }
 
-### Cheesegull> Get beatmap [GET /cheesegull/md5/{map_md5}]
+### Cheesegull> Get beatmap [GET /api/md5/{map_md5}]
 Gets a beatmap with specified md5 hash.
 
 + Parameters
@@ -287,7 +231,7 @@ Gets a beatmap with specified md5 hash.
                   "DifficultyRating": 1.86918
             }
 
-### Cheesegull> Get beatmapset [GET /cheesegull/s/{set_id}]
+### Cheesegull> Get beatmapset [GET /api/s/{set_id}]
 Gets a beatmap set.
 
 + Parameters
@@ -343,8 +287,8 @@ Search for a beatmap set
     + query: `peppy disco` (string) - Search query
     + amount: `1` (number) - Amount of resulting beatmaps
     + offset: `0` (number) - Offset E.G amount + 100 would result in the next page
-    + status: `0` (number) - Ranked status of the Beatmap Set
-    + mode: `0` (number) - Required playmode of the beatmap
+    + status: `0` (number[]) - Ranked statuses of the Beatmap Set
+    + mode: `0` (number[]) - Required playmodes of the beatmap
 
 + Response 200 (application/json)
 
